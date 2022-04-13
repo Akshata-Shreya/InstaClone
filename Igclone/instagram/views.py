@@ -10,3 +10,6 @@ def profile(request):
 
 def feed(request):
     return render(request,'feed.html')
+
+def newPost(request):
+    return render(request,'newPost.html')
