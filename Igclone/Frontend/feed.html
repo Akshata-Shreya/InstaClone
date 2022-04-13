@@ -1,18 +1,19 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
     <head>
         <meta charset="UTF-8">
         <title>Feed | Instaclone</title>
         <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
-        <link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
-        <link href="css/style.css" rel="stylesheet">
+        <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon">
+        <link href="{% static 'css/style.css' %}" rel="stylesheet">
         <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     </head> 
     <body>
         <nav class="navigation">
             <a href="feed.html">
                 <img 
-                    src="images/navLogo.png"
+                    src="{% static 'images/navLogo.png' %}"
                     alt="logo"
                     title="logo"
                     class="navigation__logo"
@@ -40,7 +41,7 @@
                     <div class="photo__header-column">
                         <img
                             class="photo__avatar"
-                            src="images/avatar.jpg"
+                            src="{% static 'images/avatar.jpg' %}"
                         />
                     </div>
                     <div class="photo__header-column">
@@ -51,7 +52,7 @@
                 <div class="photo__file-container">
                     <img
                         class="photo__file"
-                        src="images/feedPhoto.jpg"
+                        src="{% static 'images/feedPhoto.jpg' %}"
                     />
                 </div>
                 <div class="photo__info">
@@ -84,7 +85,7 @@
                     <div class="photo__header-column">
                         <img
                             class="photo__avatar"
-                            src="images/avatar.jpg"
+                            src="{% static 'images/avatar.jpg' %}"
                         />
                     </div>
                     <div class="photo__header-column">
@@ -95,7 +96,7 @@
                 <div class="photo__file-container">
                     <img
                         class="photo__file"
-                        src="images/feedPhoto.jpg"
+                        src="{% static 'images/feedPhoto.jpg' %}"
                     />
                 </div>
                 <div class="photo__info">
@@ -145,6 +146,6 @@
   src="https://code.jquery.com/jquery-3.2.1.min.js"
   integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
   crossorigin="anonymous"></script>
-        <script src="js/app.js"></script>
+        <script src="{% static 'js/app.js' %}"></script>
     </body>
 </html>

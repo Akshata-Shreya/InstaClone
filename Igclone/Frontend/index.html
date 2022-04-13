@@ -13,7 +13,7 @@
         <main class="login">
             <div class="login__column">
                 <img 
-                    src="images/phone.png"
+                    src="{% static 'images/phone.png' %}"
                     alt="Phone Image"
                     title="Phone Image"
                     class="login__phone-image"
@@ -22,7 +22,7 @@
             <section class="login__column">
                 <div class="login__section login__sign-in">
                     <img 
-                        src="images/logo.png"
+                        src="{% static 'images/logo.png' %}"
                         alt="Logo"
                         title="Logo"
                         class="login__logo"
@@ -75,13 +75,13 @@
                     </span>
                     <div class="login__appstores">
                         <img 
-                            src="images/ios.png"
+                            src="{% static 'images/ios.png' %}"
                             alt="iOS"
                             title="Get the app!"
                             class="login__appstore" 
                         />
                         <img 
-                            src="images/android.png"
+                            src="{% static 'images/android.png' %}"
                             alt="Android"
                             title="Get the app!"
                             class="login__appstore" 
@@ -111,6 +111,6 @@
   src="https://code.jquery.com/jquery-3.2.1.min.js"
   integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
   crossorigin="anonymous"></script>
-        <script src="js/app.js"></script>
+        <script src="{% static 'js/app.js' %}"></script>
     </body>
 </html>
