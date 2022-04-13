@@ -14,5 +14,16 @@ def profile(request):
 def feed(request):
     return render(request,'feed.html')
 
+def login(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+
+        print("username ", username)
+        print("password ", password)
+        
+    return render(request, 'index.html')
+
+
 def newPost(request):
     return render(request,'newPost.html')
