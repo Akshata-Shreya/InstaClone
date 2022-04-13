@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'storages',
 ]
 
 MIDDLEWARE = [
@@ -108,10 +109,13 @@ AUTH_PASSWORD_VALIDATORS = [
 AWS_ACCESS_KEY_ID = 'AKIAWCPJQXB65N435KVV'
 AWS_SECRET_ACCESS_KEY = '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'
 AWS_STORAGE_BUCKET_NAME = 'ccl-practical-1019153'
+AWS_S3_REGION_NAME = 'ap-south-1' 
+AWS_S3_VERIFY = True
 AWS_S3_FILE_OVERWRITE = False
+AWS_S3_SIGNATURE_VERSION = 's3v4'
 AWS_DEFAULT_ACL = None
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
-STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+# STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
