@@ -8,7 +8,7 @@ def index(request):
 
 def profile(request):
     users = user_handle.find({})
-    print(users)
+    print(list(users))
     return render(request,'profile.html')
 
 def feed(request):
