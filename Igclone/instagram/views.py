@@ -7,3 +7,6 @@ def index(request):
 
 def profile(request):
     return render(request,'profile.html')
+
+def feed(request):
+    return render(request,'feed.html')
