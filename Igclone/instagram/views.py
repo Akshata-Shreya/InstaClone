@@ -18,6 +18,9 @@ def login(request):
 
         print("username ", username)
         print("password ", password)
-        return render(request, 'index.html')
+        
+    return render(request, 'index.html')
+
+
 def newPost(request):
     return render(request,'newPost.html')
