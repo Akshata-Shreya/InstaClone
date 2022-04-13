@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from utils import user_handle
 
@@ -6,9 +6,9 @@ from utils import user_handle
 def index(request):
     return render(request, 'index.html')
 
-def profile(request):
+def profile(request, userid):
     users = user_handle.find({})
-    print(users)
+    print(list(users))
     return render(request,'profile.html')
 
 def feed(request):
@@ -19,8 +19,15 @@ def login(request):
         username = request.POST['username']
         password = request.POST['password']
 
-        print("username ", username)
-        print("password ", password)
+        user = user_handle.find_one(
+            {
+                'username':username,
+                'password':password
+            }
+             )
+
+        if user is not None:
+            return redirect(profile,userid=user['_id'])
         
     return render(request, 'index.html')
 
