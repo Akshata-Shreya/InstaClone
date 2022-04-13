@@ -1,6 +1,7 @@
+import uuid
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from utils import user_handle
+from utils import user_handle, post_handle
 
 # Create your views here.
 def index(request):
@@ -32,5 +33,20 @@ def login(request):
     return render(request, 'index.html')
 
 
-def newPost(request):
+def newPost(request,userid):
+    if request.method == 'POST':
+        files = request.FILES
+        post = files.get("post")
+        location = request.POST['location']
+        description = request.POST['description']
+
+        print(post)
+        print(location)
+        # post_handle.insert_one(
+        #     {
+        #         '_id':str(uuid.uuid4()),
+        #         'userid':userid,
+        #         ''
+        #         }
+        #         )
     return render(request,'newPost.html')
