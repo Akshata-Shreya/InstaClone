@@ -1,7 +1,9 @@
+import imp
 import uuid
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from utils import user_handle, post_handle
+import requests
 
 # Create your views here.
 def index(request):
@@ -36,12 +38,31 @@ def login(request):
 def newPost(request,userid):
     if request.method == 'POST':
         files = request.FILES
-        post = files.get("post")
+        # filename = request.FILES['filename']
+        # for filename, file in request.FILES.iteritems():
+        #     name = request.FILES[filename].name
+        #     print(name)
+        post = files.get('usr_post')
+        headers = {
+                    'Accept': 'application/json',
+                    'Content-Type': 'image/png'
+                }
+
+        # print(type(post))
+
+        url = "https://qofpjxi1zg.execute-api.ap-south-1.amazonaws.com/v6/ccl-practical-1019153/test1"
+        r = requests.put(url=url,data=post,headers=headers)
+
+        print(r)
+        print(r.content)
+
+
         location = request.POST['location']
         description = request.POST['description']
 
         print(post)
         print(location)
+        print(description)
         # post_handle.insert_one(
         #     {
         #         '_id':str(uuid.uuid4()),
