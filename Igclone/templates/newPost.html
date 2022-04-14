@@ -46,14 +46,11 @@
                     </div>
                     <h4 class="profile-form__title">serranoarevalo</h4>
                 </header>
-                <form action="/newPost/1" method="post" class="edit-profile__form">
+                <form action="/newPost/1" method="POST" class="edit-profile__form" enctype="multipart/form-data">
                     {% csrf_token %}
                     <div class="edit-profile__form-row">
-                        <label for="post" class="edit-profile__label">Post
-                        </label>
-                        <input type="file" 
-                        accept="image/*"
-                        name="post">
+                        <label id="something" for="image" class="edit-profile__label">Post</label>
+                        <input type="file" name="image">
                     </div>
                     <div class="edit-profile__form-row">
                         <label for="location" class="edit-profile__label">
