@@ -46,20 +46,11 @@
                     </div>
                     <h4 class="profile-form__title">serranoarevalo</h4>
                 </header>
-                <form action="/newPost/b1f16884-2f48-4db2-bb2b-61825fb70c61" method="POST" class="edit-profile__form" enctype="multipart/form-data">
+                <form action="/newPost/1" method="POST" class="edit-profile__form" enctype="multipart/form-data">
                     {% csrf_token %}
                     <div class="edit-profile__form-row">
-                        <label for="image" class="edit-profile__label">Post
-                        <!-- </label>
-                        <input type="file" 
-                        accept="image/*"
-                        name="image"
-                        /> -->
-                        <label for="usr_post">Choose a profile picture:</label>
-
-                        <input type="file"
-                                id="usr_post" name="usr_post"
-                                accept="image/png, image/jpeg">
+                        <label id="something" for="image" class="edit-profile__label">Post</label>
+                        <input type="file" name="image">
                     </div>
                     <div class="edit-profile__form-row">
                         <label for="location" class="edit-profile__label">
