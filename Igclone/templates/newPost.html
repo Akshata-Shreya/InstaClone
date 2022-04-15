@@ -40,18 +40,37 @@
                 <header class="profile-form__header">
                     <div class="profile-form__avatar-container">
                         <img 
-                            src="{% static 'images/avatar.jpg'%}"
+                            src="{{img_url}}"
                             class="profile-form__avatar"
                         />
                     </div>
-                    <h4 class="profile-form__title">serranoarevalo</h4>
+                    <h4 class="profile-form__title">{{name}}</h4>
                 </header>
                 <form action="/newPost/{{userid}}" method="POST" class="edit-profile__form" enctype="multipart/form-data">
                     {% csrf_token %}
+                    
                     <div class="edit-profile__form-row">
-                        <label id="something" for="usr_post" class="edit-profile__label">Post</label>
-                        <input type="file" name="usr_post">
+                        
+                            <label for="file" ><b>Upload Image</b></label>
+                       <input type="file"  accept="image/*" name="usr_post" id="file"  onchange="loadFile(event)" >
+                            
+                    
+                    
+                        <!-- <label id="something" for="usr_post" class="edit-profile__label">Post</label>
+                        <input type="file" name="usr_post"> -->
                     </div>
+                    <div>
+                        <img id="output" width="500" />
+                        <style type="text/css">
+                            *{
+                            padding:auto;
+                            margin:auto;
+                            text-align:center;
+                            }
+                            </style>
+                     </div>
+                     <br>
+                     <br>
                     <div class="edit-profile__form-row">
                         <label for="location" class="edit-profile__label">
                             Location
@@ -62,6 +81,7 @@
                             class="edit-profile__input"
                         />
                     </div>
+                    
                     <div class="edit-profile__form-row">
                         <label for="description" class="edit-profile__label">
                             Description
@@ -72,12 +92,15 @@
                             class="edit-profile__input"
                         />
                     </div>
-                    
                     <div class="edit-profile__form-row">
                         <label class="edit-profile__label"></label>
                         <input type="submit" value="Submit">
                     </div>
+                    
+                    
                 </form>
+                
+                 
             </section>
         </main>
         <footer class="footer">
@@ -98,9 +121,17 @@
             <span class="footer__copyright">© 2017 instagram</span>
         </footer>
         <script
-  src="https://code.jquery.com/jquery-3.2.1.min.js"
-  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
-  crossorigin="anonymous"></script>
+            src="https://code.jquery.com/jquery-3.2.1.min.js"
+            integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+            crossorigin="anonymous"></script>
         <script src="{% static 'js/app.js'%}"></script>
+        
+
+        <script>
+            var loadFile = function(event) {
+                var image = document.getElementById('output');
+                image.src = URL.createObjectURL(event.target.files[0]);
+            };
+        </script>
     </body>
 </html>

@@ -62,30 +62,58 @@ def login(request):
 
 
 def newPost(request,userid):
+
+    file = open('config.json')
+    config_json = json.load(file)
+    file.close()
+
     if request.method == 'POST':
-        files = request.FILES  # multivalued dict
-        print(type(files))
-        print(files)
+        files = request.FILES
+
+        post = files.get('usr_post')
+        # location = request.POST['location']
+        # description = request.POST['description']
+        location = request.POST.get('location','')
+        description = request.POST.get('description','')
+
+        headers = {
+                    'Accept': 'application/json',
+                    'Content-Type': 'image/png',
+                    "Accept":"*/*",
+                }
+
+        base_url = config_json['S3-upload']
+        folder = config_json['folder']
+
+        postid = str(uuid.uuid4())
+
+        url = base_url+folder+postid
+
+        response = requests.put(url=url, headers=headers, data=post)
         
-        post = files.get("image")
-        location = request.POST['location']
-        description = request.POST['description']
-        url = "https://qofpjxi1zg.execute-api.ap-south-1.amazonaws.com/v6"+"/ccl-practical-1019153/"+str(userid)
-        headers={
-            "Content-Type":"image/jpeg",
-            "User-Agent":"PostmanRuntime/7.28.4",
-            "Accept":"*/*",
-            "Accept":"application/json"
-        }
-        response = requests.put(url=url,headers=headers ,data=post)
-        print(type(post))
-        print(location)
-        # print(response.json())
-        # post_handle.insert_one(
-        #     {
-        #         '_id':str(uuid.uuid4()),
-        #         'userid':userid,
-        #         ''
-        #         }
-        #         )
-    return render(request,'newPost.html')
+        post_object = {
+            '_id' : postid,
+            'postID':postid,
+            'userID':userid,
+            'location':location,
+            'description':description
+        }        
+
+        post_handle.insert_one(post_object)
+
+    # if request.method == 'GET': 
+
+    user = user_handle.find_one({'_id':userid})  
+    name = user['name'] 
+
+    base_url = config_json['S3-image']
+
+    url = base_url+'usr-'+userid
+
+    parameters = {
+        'userid':userid,
+        'name':name,
+        'img_url': url
+    }
+    
+    return render(request,'newPost.html',parameters)
