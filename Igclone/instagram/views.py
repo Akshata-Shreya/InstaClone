@@ -77,32 +77,29 @@ def newPost(request,userid):
 
         response = requests.put(url=url, headers=headers, data=post)
         
-        post = files.get("image")
-        location = request.POST['location']
-        description = request.POST['description']
-        url = "https://qofpjxi1zg.execute-api.ap-south-1.amazonaws.com/v6"+"/ccl-practical-1019153/"+str(userid)
-        headers={
-            "Content-Type":"image/jpeg",
-            "User-Agent":"PostmanRuntime/7.28.4",
-            "Accept":"*/*",
-            "Accept":"application/json"
-        }
+        post_object = {
+            '_id' : postid,
+            'postID':postid,
+            'userID':userid,
+            'location':location,
+            'description':description
+        }        
 
         post_handle.insert_one(post_object)
 
-    if request.method == 'GET': 
+    # if request.method == 'GET': 
 
-        user = user_handle.find_one({'_id':userid})  
-        name = user['name'] 
+    user = user_handle.find_one({'_id':userid})  
+    name = user['name'] 
 
-        base_url = config_json['S3-image']
+    base_url = config_json['S3-image']
 
-        url = base_url+'usr-'+userid
+    url = base_url+'usr-'+userid
 
-        parameters = {
-            'userid':userid,
-            'name':name,
-            'img_url': url
-        }
-        
-        return render(request,'newPost.html',parameters)
+    parameters = {
+        'userid':userid,
+        'name':name,
+        'img_url': url
+    }
+    
+    return render(request,'newPost.html',parameters)
