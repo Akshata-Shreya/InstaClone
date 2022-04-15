@@ -1,4 +1,5 @@
 {
     "S3-upload" : "https://qofpjxi1zg.execute-api.ap-south-1.amazonaws.com/v6/",
-    "folder" : "ccl-practical-1019153/"
+    "folder" : "ccl-practical-1019153/",
+    "S3-image" : "https://ccl-practical-1019153.s3.ap-south-1.amazonaws.com/"
 }

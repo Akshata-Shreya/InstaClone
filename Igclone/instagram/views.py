@@ -1,11 +1,13 @@
-
-from sqlite3 import paramstyle
 import uuid
 from django.shortcuts import render, redirect
-# from django.http import HttpResponse
+from django.http import HttpResponse
 from utils import user_handle, post_handle
 import requests
 import json
+
+file = open('config.json')
+config_json = json.load(file)
+file.close()
 
 # Create your views here.
 def index(request):
@@ -19,7 +21,8 @@ def profile(request, userid):
     context = {
         'posts' : posts,
         'user' : user,
-        'noOfPosts' : len(posts)
+        'noOfPosts' : len(posts),
+        'imageLink' : config_json['S3-image']
     }
     return render(request,'profile.html',context)
 
@@ -65,10 +68,6 @@ def newPost(request,userid):
                     "Accept":"*/*",
                 }
 
-        
-
-        
-
         base_url = config_json['S3-upload']
         folder = config_json['folder']
 
@@ -78,14 +77,15 @@ def newPost(request,userid):
 
         response = requests.put(url=url, headers=headers, data=post)
         
-        print(response.text)
-
-        post_object = {
-            '_id' : postid,
-            'postID':postid,
-            'userID':userid,
-            'location':location,
-            'description':description
+        post = files.get("image")
+        location = request.POST['location']
+        description = request.POST['description']
+        url = "https://qofpjxi1zg.execute-api.ap-south-1.amazonaws.com/v6"+"/ccl-practical-1019153/"+str(userid)
+        headers={
+            "Content-Type":"image/jpeg",
+            "User-Agent":"PostmanRuntime/7.28.4",
+            "Accept":"*/*",
+            "Accept":"application/json"
         }
 
         post_handle.insert_one(post_object)
@@ -95,10 +95,9 @@ def newPost(request,userid):
         user = user_handle.find_one({'_id':userid})  
         name = user['name'] 
 
-        base_url = config_json['S3-upload']
-        folder = config_json['folder']
+        base_url = config_json['S3-image']
 
-        url = base_url+folder+userid
+        url = base_url+'usr-'+userid
 
         parameters = {
             'userid':userid,
