@@ -40,11 +40,11 @@
                 <header class="profile-form__header">
                     <div class="profile-form__avatar-container">
                         <img 
-                            src="{% static 'images/avatar.jpg'%}"
+                            src="{{img_url}}"
                             class="profile-form__avatar"
                         />
                     </div>
-                    <h4 class="profile-form__title">serranoarevalo</h4>
+                    <h4 class="profile-form__title">{{name}}</h4>
                 </header>
                 <form action="/newPost/{{userid}}" method="POST" class="edit-profile__form" enctype="multipart/form-data">
                     {% csrf_token %}

@@ -1,4 +1,5 @@
 
+from sqlite3 import paramstyle
 import uuid
 from django.shortcuts import render, redirect
 # from django.http import HttpResponse
@@ -44,6 +45,11 @@ def login(request):
 
 
 def newPost(request,userid):
+
+    file = open('config.json')
+    config_json = json.load(file)
+    file.close()
+
     if request.method == 'POST':
         files = request.FILES
 
@@ -61,9 +67,7 @@ def newPost(request,userid):
 
         
 
-        file = open('config.json')
-        config_json = json.load(file)
-        file.close()
+        
 
         base_url = config_json['S3-upload']
         folder = config_json['folder']
@@ -86,9 +90,20 @@ def newPost(request,userid):
 
         post_handle.insert_one(post_object)
 
-    if request.method == 'POST': 
+    if request.method == 'GET': 
 
-        user = user_handle.find_one({'userID':userid})  
-         
+        user = user_handle.find_one({'_id':userid})  
+        name = user['name'] 
+
+        base_url = config_json['S3-upload']
+        folder = config_json['folder']
+
+        url = base_url+folder+userid
+
+        parameters = {
+            'userid':userid,
+            'name':name,
+            'img_url': url
+        }
         
-        return render(request,'newPost.html',{'userid':userid})
+        return render(request,'newPost.html',parameters)
