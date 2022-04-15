@@ -1,7 +1,7 @@
 
 import uuid
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from utils import user_handle, post_handle
 import requests
 from datetime import datetime
@@ -229,6 +229,8 @@ def likePost(request,postid,userid):
     #         ]
     #     )
     return redirect (feed,userid=userid)
+    # return HttpResponseRedirect(request.path)
+    # return HttpResponseRedirect(request.path_info)
 
 
 def profilePicUrlfromUserID(userid):
