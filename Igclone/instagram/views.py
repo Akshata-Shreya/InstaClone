@@ -1,4 +1,4 @@
-from inspect import Parameter
+
 import uuid
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
@@ -48,6 +48,9 @@ def feed(request,userid):
         followerPosts = list(post_handle.find({'userID':followee}))
         for post in followerPosts:
             post['user'] = followeeUser
+            post['numberOfLikes'] = len(post['likedby'])
+            post['date'] = post['timestamp'].date()
+            post['time'] = post['timestamp'].time()
             posts.append(post)
     # print(posts)
     sorted_list = sorted(posts,key=itemgetter('timestamp'), reverse=True )
@@ -147,6 +150,8 @@ def newPost(request,userid):
 
         response = requests.put(url=url, headers=headers, data=post)
         
+        # utc_datetime = datetime.now().astimezone(pytz.utc).strftime("%Y-%m-%dT%H:%M:%S.%f")
+
         post_object = {
             '_id' : postid,
             'postID':postid,
@@ -200,26 +205,20 @@ def likePost(request,postid,userid):
     post = post_handle.find_one({'_id':postid})
     likedby = post['likedby']
     if userid not in likedby:
-        user_handle.update_one(
-            {'_id':userid},
-            [
-                {'$set':{'following':{'$concatArrays':['$following',[profileid]]}}}
-            ]
-        ) 
         post_handle.update_one(
             {'_id':postid},
             [
                 {'$set':{'likedby':{'$concatArrays':['$likedby',[userid]]}}}
             ]
         )
-    else:
-        post_handle.update_one(
-            {'_id':postid},
-            [
-                {'$pull':{'likedby':userid}}
-            ]
-        )
-    return render (request,)
+    # else:
+    #     post_handle.update_one(
+    #         {'_id':postid},
+    #         [
+    #             {'$pull':{'likedby':userid}}
+    #         ]
+    #     )
+    return redirect (feed,userid=userid)
 
 
 def profilePicUrlfromUserID(userid):
