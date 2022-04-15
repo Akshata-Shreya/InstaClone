@@ -26,6 +26,10 @@ def profile(request, userid, profileid):
     config_json = json.load(file)
     file.close()
 
+    for post in posts :
+        post['numberOfLikes'] = len(post['likedby'])
+            # posts.append(post)
+
     context = {
         'userid':userid,
         'img_url': profilePicUrlfromUserID(userid),
@@ -38,6 +42,30 @@ def profile(request, userid, profileid):
         'imageLink' : config_json['S3-image']
     }
     return render(request,'profile.html',context)
+
+def viewImage(request,userid,postid):
+    file = open('config.json')
+    config_json = json.load(file)
+    file.close()
+
+    post = post_handle.find_one({'_id':postid})
+    
+    dp_url = profilePicUrlfromUserID(userid)
+
+    user = user_handle.find_one({'_id':post['userID']})
+
+    parameters = {
+        'userid':userid,
+        'postid':postid,
+        'post':post,
+        'posted_by':user['name'],
+        'numberOfLikes' : len(post['likedby']),
+        'date':post['timestamp'].date(),
+        'time':post['timestamp'].time(),
+        'img_url':dp_url,
+        'imageLink' : config_json['S3-image']
+    }
+    return render (request,'image-detail.html',parameters)
 
 def feed(request,userid):
     user = user_handle.find_one({'_id':userid})
@@ -181,25 +209,7 @@ def newPost(request,userid):
         
         return render(request,'newPost.html',parameters)
 
-def viewImage(request,postid):
-    file = open('config.json')
-    config_json = json.load(file)
-    file.close()
 
-    post = post_handle.find_one({'_id':postid})
-    userid = post['userID']
-    dp_url = profilePicUrlfromUserID(userid)
-
-    user = user_handle.find_one({'_id':post['userID']})
-
-    parameters = {
-        'postid':postid,
-        'post':post,
-        'name':user['name'],
-        'img_url':dp_url,
-        'base_url':config_json['S3-image']
-    }
-    return render (request,'image-detail.html',parameters)
 
 def likePost(request,postid,userid):
     post = post_handle.find_one({'_id':postid})
