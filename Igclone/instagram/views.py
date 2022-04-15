@@ -6,6 +6,7 @@ from utils import user_handle, post_handle
 import requests
 from datetime import datetime
 import json
+from operator import itemgetter
 
 # file = open('config.json')
 # config_json = json.load(file)
@@ -39,9 +40,26 @@ def profile(request, userid, profileid):
     return render(request,'profile.html',context)
 
 def feed(request,userid):
+    user = user_handle.find_one({'_id':userid})
+    posts = []
+    for followee in user['following']:
+        followeeUser = user_handle.find_one({'_id':followee})
+        # print(follower)
+        followerPosts = list(post_handle.find({'userID':followee}))
+        for post in followerPosts:
+            post['user'] = followeeUser
+            posts.append(post)
+    # print(posts)
+    sorted_list = sorted(posts,key=itemgetter('timestamp'), reverse=True )
+    print(sorted_list)
+    file = open('config.json')
+    config_json = json.load(file)
+    file.close()
     parameters = {
-        'userid':userid,
-        'img_url': profilePicUrlfromUserID(userid)
+        'user':user,
+        'img_url': profilePicUrlfromUserID(userid),
+        'posts':sorted_list,
+        'imageLink' : config_json['S3-image']
     }
     # sorted_list = sorted(patientRecords,key=itemgetter('uploadedOn'), reverse=True )
     return render(request,'feed.html',parameters)
@@ -93,7 +111,7 @@ def login(request):
              )
 
         if user is not None:
-            return redirect(profile,userid=user['_id'])
+            return redirect(profile,userid=user['_id'],profileid=user['_id'])
         
     return render(request, 'login.html')
 
@@ -210,7 +228,7 @@ def profilePicUrlfromUserID(userid):
 
     base_url = config_json['S3-image']
 
-    url = base_url+'usr-'+userid
+    url = base_url+'usr-'+str(userid)
 
     return url
 
