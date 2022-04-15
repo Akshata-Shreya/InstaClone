@@ -13,21 +13,35 @@ file.close()
 def index(request):
     return render(request, 'index.html')
 
-def profile(request, userid):
-    user = user_handle.find_one({'_id':userid})
-    print(user)
-    posts = list(post_handle.find({'userID':userid}))
+def profile(request, userid, profileid):
+    user = user_handle.find_one({'_id':userid})    
+    profile = user_handle.find_one({'_id':profileid})
+    print(profile)
+    posts = list(post_handle.find({'userID':profileid}))
     print(posts)
     context = {
         'posts' : posts,
+        'profile' : profile,
         'user' : user,
         'noOfPosts' : len(posts),
+        'followers' : len(profile['followers']),
+        'following' : len(profile['following']),
         'imageLink' : config_json['S3-image']
     }
     return render(request,'profile.html',context)
 
 def feed(request):
     return render(request,'feed.html')
+
+def explore(request, userid):
+    user = user_handle.find_one({'_id':userid})
+    people = list(user_handle.find({}))
+    context = {
+        'user':user,
+        'people':people,
+        'imageLink' : config_json['S3-image']
+    }
+    return render(request,'explore.html',context)
 
 def login(request):
     if request.method == 'POST':
@@ -42,7 +56,7 @@ def login(request):
              )
 
         if user is not None:
-            return redirect(profile,userid=user['_id'])
+            return redirect(profile,userid=user['_id'],profileid=user['_id'])
         
     return render(request, 'index.html')
 

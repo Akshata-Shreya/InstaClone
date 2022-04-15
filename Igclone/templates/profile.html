@@ -24,7 +24,7 @@
                 <input type="text" placeholder="Search">
             </div>
             <div class="navigation__icons">
-                <a href="{% static 'explore.html' %}" class="navigation__link">
+                <a href="/explore/{{user.userID}}" class="navigation__link">
                     <i class="fa fa-compass"></i>
                 </a>
                 <a href="#" class="navigation__link">
@@ -40,16 +40,17 @@
                 <header class="profile__header">
                     <div class="profile__avatar-container">
                         <img 
-                            src="{{imageLink}}usr-{{user.userID}}"
+                            src="{{imageLink}}usr-{{profile.userID}}"
                             class="profile__avatar"
                         />
                     </div>
                     <div class="profile__info">
                         <div class="profile__name">
-                            <h1 class="profile__title">{{ user.username }}</h1>
-                            <a href="{% static 'edit-profile.html' %}" class="profile__button u-fat-text">Edit profile</a>
-                            
-                            <a href="/newPost" class="navigation__link">
+                            <h1 class="profile__title">{{ profile.username }}</h1>
+                            {% if user.userID is profile.userID %}
+                            <a href="{% static 'edit-profile.html' %}" class="profile__button u-fat-text">Follow</a>
+                            {% endif %}
+                            <a href="/newPost/{{user.userID}}" class="navigation__link">
                                 
                                 <i class="fa fa-plus fa-2x"></i>
                             </a>
@@ -59,15 +60,15 @@
                                 <span class="profile__number u-fat-text">{{noOfPosts}}</span> posts
                             </li>
                             <li class="profile__followers">
-                                <span class="profile__number u-fat-text">40</span> followers
+                                <span class="profile__number u-fat-text">{{followers}}</span> followers
                             </li>
                             <li class="profile__following">
-                                <span class="profile__number u-fat-text">134</span> following
+                                <span class="profile__number u-fat-text">{{following}}</span> following
                             </li>
                         </ul>
                         <div class="profile__bio">
-                            <span class="profile__full-name u-fat-text">{{ user.fullName }}</span>
-                            <p class="profile__full-bio">{{ user.bio }}</p>
+                            <span class="profile__full-name u-fat-text">{{ profile.fullName }}</span>
+                            <p class="profile__full-bio">{{ profile.bio }}</p>
                         </div>
                     </div>
                 </header>
