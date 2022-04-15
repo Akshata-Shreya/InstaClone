@@ -1,3 +1,4 @@
+from inspect import Parameter
 import uuid
 from django.shortcuts import render, redirect
 from django.http import HttpResponse
@@ -5,20 +6,25 @@ from utils import user_handle, post_handle
 import requests
 import json
 
-file = open('config.json')
-config_json = json.load(file)
-file.close()
+# file = open('config.json')
+# config_json = json.load(file)
+# file.close()
 
 # Create your views here.
 def index(request):
-    return render(request, 'index.html')
+    return render(request, 'login.html')
 
 def profile(request, userid):
     user = user_handle.find_one({'_id':userid})
     print(user)
     posts = list(post_handle.find({'userID':userid}))
     print(posts)
+    file = open('config.json')
+    config_json = json.load(file)
+    file.close()
     context = {
+        'userid':userid,
+        'img_url': profilePicUrlfromUserID(userid),
         'posts' : posts,
         'user' : user,
         'noOfPosts' : len(posts),
@@ -26,8 +32,12 @@ def profile(request, userid):
     }
     return render(request,'profile.html',context)
 
-def feed(request):
-    return render(request,'feed.html')
+def feed(request,userid):
+    parameters = {
+        'userid':userid,
+        'img_url': profilePicUrlfromUserID(userid)
+    }
+    return render(request,'feed.html',parameters)
 
 def login(request):
     if request.method == 'POST':
@@ -42,9 +52,9 @@ def login(request):
              )
 
         if user is not None:
-            return redirect(profile,userid=user['_id'])
+            return redirect(feed,userid=user['_id'])
         
-    return render(request, 'index.html')
+    return render(request, 'login.html')
 
 
 def newPost(request,userid):
@@ -92,9 +102,7 @@ def newPost(request,userid):
     user = user_handle.find_one({'_id':userid})  
     name = user['name'] 
 
-    base_url = config_json['S3-image']
-
-    url = base_url+'usr-'+userid
+    url = profilePicUrlfromUserID(userid)
 
     parameters = {
         'userid':userid,
@@ -103,3 +111,30 @@ def newPost(request,userid):
     }
     
     return render(request,'newPost.html',parameters)
+
+def viewImage(request,postid):
+    file = open('config.json')
+    config_json = json.load(file)
+    file.close()
+
+    post = post_handle.find_one({'_id':postid})
+    dp_url = profilePicUrlfromUserID(post['userID'])
+    parameters = {
+        'postid':postid,
+        'img_url':dp_url,
+        'base_url':config_json['S3-image']
+    }
+    return render (request,'image-detail.html',parameters)
+
+
+def profilePicUrlfromUserID(userid):
+    file = open('config.json')
+    config_json = json.load(file)
+    file.close()
+
+    base_url = config_json['S3-image']
+
+    url = base_url+'usr-'+userid
+
+    return url
+
