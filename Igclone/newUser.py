@@ -2,9 +2,12 @@ from utils import user_handle
 import uuid
 
 id = uuid.uuid4()
-name = "shreya"
-password = "shr123"
-
+username = "asko"
+password = "asko"
+bio = "Shreya ki dost"
+name = "Akshata Abhay Sangwai"
+followers = []
+following = []
 # user = {
 #         "_id":str(id),
 #         "username":name,
@@ -16,7 +19,12 @@ password = "shr123"
 user_handle.insert_one(
     {
         "_id":str(id),
-        "username":name,
-        "password":password
+        "username":username,
+        "password":password,
+        "bio":bio,
+        "name":name,
+        "userID":str(id),
+        "followers": followers,
+        "following":following
     }
 )

@@ -14,20 +14,25 @@ import json
 def index(request):
     return render(request, 'login.html')
 
-def profile(request, userid):
-    user = user_handle.find_one({'_id':userid})
-    print(user)
-    posts = list(post_handle.find({'userID':userid}))
-    print(posts)
+def profile(request, userid, profileid):
+
+    user = user_handle.find_one({'_id':userid})    
+    profile = user_handle.find_one({'_id':profileid})
+    posts = list(post_handle.find({'userID':profileid}))
+
     file = open('config.json')
     config_json = json.load(file)
     file.close()
+
     context = {
         'userid':userid,
         'img_url': profilePicUrlfromUserID(userid),
         'posts' : posts,
+        'profile' : profile,
         'user' : user,
         'noOfPosts' : len(posts),
+        'followers' : len(profile['followers']),
+        'following' : len(profile['following']),
         'imageLink' : config_json['S3-image']
     }
     return render(request,'profile.html',context)
@@ -38,6 +43,38 @@ def feed(request,userid):
         'img_url': profilePicUrlfromUserID(userid)
     }
     return render(request,'feed.html',parameters)
+
+def follow(request, userid, profileid):
+    # user = user_handle.find_one({'_id':userid}) 
+    
+    user_handle.update_one(
+            {'_id':userid},
+            [
+                {'$set':{'following':{'$concatArrays':['$following',[profileid]]}}}
+            ]
+        )  
+    user_handle.update_one(
+            {'_id':profileid},
+            [
+                {'$set':{'followers':{'$concatArrays':['$followers',[userid]]}}}
+            ]
+        )     
+    return redirect(profile,userid=userid,profileid=profileid)
+
+def explore(request, userid):
+    user = user_handle.find_one({'_id':userid})
+    people = list(user_handle.find({}))
+
+    file = open('config.json')
+    config_json = json.load(file)
+    file.close()
+
+    context = {
+        'user':user,
+        'people':people,
+        'imageLink' : config_json['S3-image']
+    }
+    return render(request,'explore.html',context)
 
 def login(request):
     if request.method == 'POST':
@@ -52,7 +89,7 @@ def login(request):
              )
 
         if user is not None:
-            return redirect(feed,userid=user['_id'])
+            return redirect(profile,userid=user['_id'])
         
     return render(request, 'login.html')
 
@@ -97,20 +134,22 @@ def newPost(request,userid):
 
         post_handle.insert_one(post_object)
 
-    # if request.method == 'GET': 
+        return redirect(profile,userid=userid)
 
-    user = user_handle.find_one({'_id':userid})  
-    name = user['name'] 
+    if request.method == 'GET': 
 
-    url = profilePicUrlfromUserID(userid)
+        user = user_handle.find_one({'_id':userid})  
+        name = user['name'] 
 
-    parameters = {
-        'userid':userid,
-        'name':name,
-        'img_url': url
-    }
-    
-    return render(request,'newPost.html',parameters)
+        url = profilePicUrlfromUserID(userid)
+
+        parameters = {
+            'userid':userid,
+            'name':name,
+            'img_url': url
+        }
+        
+        return render(request,'newPost.html',parameters)
 
 def viewImage(request,postid):
     file = open('config.json')
