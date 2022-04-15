@@ -2,10 +2,10 @@ from utils import user_handle
 import uuid
 
 id = uuid.uuid4()
-username = "asko"
-password = "asko"
-bio = "Shreya ki dost"
-name = "Akshata Abhay Sangwai"
+username = "shreshtha"
+password = "shresh"
+bio = "Sleepy shreya ki dost"
+name = "Shreshtha Sharma"
 followers = []
 following = []
 # user = {
