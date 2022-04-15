@@ -58,7 +58,7 @@ def viewImage(request,userid,postid):
         'userid':userid,
         'postid':postid,
         'post':post,
-        'posted_by':user['name'],
+        'posted_by':user['username'],
         'numberOfLikes' : len(post['likedby']),
         'date':post['timestamp'].date(),
         'time':post['timestamp'].time(),
@@ -211,7 +211,7 @@ def newPost(request,userid):
 
 
 
-def likePost(request,postid,userid):
+def likePost(request,postid,userid,returnPage):
     post = post_handle.find_one({'_id':postid})
     likedby = post['likedby']
     if userid not in likedby:
@@ -221,6 +221,8 @@ def likePost(request,postid,userid):
                 {'$set':{'likedby':{'$concatArrays':['$likedby',[userid]]}}}
             ]
         )
+    if returnPage=="fromFeed":
+        return redirect (feed,userid=userid)
     # else:
     #     post_handle.update_one(
     #         {'_id':postid},
@@ -228,9 +230,7 @@ def likePost(request,postid,userid):
     #             {'$pull':{'likedby':userid}}
     #         ]
     #     )
-    return redirect (feed,userid=userid)
-    # return HttpResponseRedirect(request.path)
-    # return HttpResponseRedirect(request.path_info)
+    return redirect (viewImage,userid=userid,postid=postid)
 
 
 def profilePicUrlfromUserID(userid):
