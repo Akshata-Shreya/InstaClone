@@ -1,5 +1,7 @@
 {% load static %}
 <!DOCTYPE html>
+
+
 <html lang="en">
     <head>
         <meta charset="UTF-8">
@@ -9,6 +11,11 @@
         <link href="{% static 'css/style.css' %}" rel="stylesheet">
         <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     </head> 
+    <style>
+        .red-color {
+            color:red;
+        }
+        </style>
     <body>
         <nav class="navigation">
             <a href="/feed/{{userid}}">
@@ -67,7 +74,8 @@
                         <span class="photo__icon">
                             <a href="">
                             <i class="fa fa-heart-o heart fa-lg"></i>
-                        </a>
+                            </a>
+                            <i class="fa heart-red fa-heart fa-lg"></i>
                         </span>
                         <span class="photo__icon">
                             <i class="fa fa-comment-o fa-lg"></i>
