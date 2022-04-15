@@ -16,9 +16,9 @@ def index(request):
 def profile(request, userid, profileid):
     user = user_handle.find_one({'_id':userid})    
     profile = user_handle.find_one({'_id':profileid})
-    print(profile)
+    # print(profile)
     posts = list(post_handle.find({'userID':profileid}))
-    print(posts)
+    # print(posts)
     context = {
         'posts' : posts,
         'profile' : profile,
@@ -29,6 +29,37 @@ def profile(request, userid, profileid):
         'imageLink' : config_json['S3-image']
     }
     return render(request,'profile.html',context)
+
+def follow(request, userid, profileid):
+    # user = user_handle.find_one({'_id':userid}) 
+    
+    user_handle.update_one(
+            {'_id':userid},
+            [
+                {'$set':{'following':{'$concatArrays':['$following',[profileid]]}}}
+            ]
+        )  
+    user_handle.update_one(
+            {'_id':profileid},
+            [
+                {'$set':{'followers':{'$concatArrays':['$followers',[userid]]}}}
+            ]
+        )     
+       
+    # profile = user_handle.find_one({'_id':profileid})
+    # print(profile)
+    # posts = list(post_handle.find({'userID':profileid}))
+    # print(posts)
+    # context = {
+    #     'posts' : posts,
+    #     'profile' : profile,
+    #     'user' : user,
+    #     'noOfPosts' : len(posts),
+    #     'followers' : len(profile['followers']),
+    #     'following' : len(profile['following']),
+    #     'imageLink' : config_json['S3-image']
+    # }
+    return redirect(profile,userid=userid,profileid=profileid)
 
 def feed(request):
     return render(request,'feed.html')

@@ -31,7 +31,7 @@
                     <i class="fa fa-heart-o"></i>
                 </a>
                 <a href="profile.html" class="navigation__link">
-                    <i class="fa fa-user-o">{{user.username}}</i>
+                    <i class="fa fa-user-o"> {{user.username}}</i>
                 </a>
             </div>
         </nav>
@@ -39,23 +39,35 @@
             <section class="people">
                 <ul class="people__list">
                     {% for person in people %}
+                    {% if person.userID != user.userID %}
                     <li class="people__person">
                         <div class="people__column">
                             <div class="people__avatar-container">
-                                <img 
-                                    src="{{imageLink}}usr-{{person.userID}}"
-                                    class="people__avatar"
-                                />
+                                
+                                    <img 
+                                        
+                                        src="{{imageLink}}usr-{{person.userID}}"
+                                        class="people__avatar"
+                                    />
+                            
                             </div>
                             <div class="people__info">
+                                
                                 <span class="people__username">{{person.username}}</span>
-                                <span class="people__full-name">{{person.name}}</span>
+                                <span class="people__full-name">{{user.name}}</span>
                             </div>
                         </div>
+                        {% if person.userID not in user.followers %}
                         <div class="people__column">
-                            <a href="#">Follow</a>
+                            <a href="/follow/{{user.userID}}/{{person.userID}}">Follow</a>
                         </div>
+                        {% else %}
+                        <div class="people__column">
+                            <a href="/profile/{{user.userID}}/{{person.userID}}">Following</a>
+                        </div>
+                        {% endif %}
                     </li>
+                    {% endif %}
                     {% endfor %}
                     <li class="people__person">
                         <div class="people__column">

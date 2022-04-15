@@ -47,8 +47,13 @@
                     <div class="profile__info">
                         <div class="profile__name">
                             <h1 class="profile__title">{{ profile.username }}</h1>
-                            {% if user.userID is profile.userID %}
-                            <a href="{% static 'edit-profile.html' %}" class="profile__button u-fat-text">Follow</a>
+                            {% if user.userID not in profile.followers  %}
+                                {% if user.userID != profile.userID  %}
+                                <a href="{% static 'edit-profile.html' %}" class="profile__button u-fat-text">Follow</a>
+                               
+                                {% endif %}
+                            {% else %}
+                            <a href="{% static 'edit-profile.html' %}" class="profile__button u-fat-text">Following</a>
                             {% endif %}
                             <a href="/newPost/{{user.userID}}" class="navigation__link">
                                 
