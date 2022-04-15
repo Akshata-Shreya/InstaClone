@@ -9,9 +9,16 @@ def index(request):
     return render(request, 'index.html')
 
 def profile(request, userid):
-    users = user_handle.find({})
-    print(list(users))
-    return render(request,'profile.html')
+    user = user_handle.find_one({'_id':userid})
+    print(user)
+    posts = list(post_handle.find({'userID':userid}))
+    print(posts)
+    context = {
+        'posts' : posts,
+        'user' : user,
+        'noOfPosts' : len(posts)
+    }
+    return render(request,'profile.html',context)
 
 def feed(request):
     return render(request,'feed.html')
