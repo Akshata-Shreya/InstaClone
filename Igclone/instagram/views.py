@@ -72,6 +72,8 @@ def explore(request, userid):
     file.close()
 
     context = {
+        'userid':userid,
+        'img_url':profilePicUrlfromUserID(userid),
         'user':user,
         'people':people,
         'imageLink' : config_json['S3-image']
@@ -160,9 +162,15 @@ def viewImage(request,postid):
     file.close()
 
     post = post_handle.find_one({'_id':postid})
-    dp_url = profilePicUrlfromUserID(post['userID'])
+    userid = post['userID']
+    dp_url = profilePicUrlfromUserID(userid)
+
+    user = user_handle.find_one({'_id':post['userID']})
+
     parameters = {
         'postid':postid,
+        'post':post,
+        'name':user['name'],
         'img_url':dp_url,
         'base_url':config_json['S3-image']
     }
