@@ -11,5 +11,5 @@ urlpatterns = [
     path('explore/<slug:userid>', views.explore, name='explore'),
     path('newPost/<slug:userid>', views.newPost, name='newPost'),
     path('viewImage/<slug:postid>',views.viewImage,name='viewImage'),
-    path('likePost/<slug:postid>/<slug:userid>',views.views.likePost,name="likePost")
+    path('likePost/<slug:postid>/<slug:userid>',views.likePost,name="likePost")
 ]

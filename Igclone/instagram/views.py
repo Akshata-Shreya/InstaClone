@@ -57,6 +57,7 @@ def feed(request,userid):
     file.close()
     parameters = {
         'user':user,
+        'userid':userid,
         'img_url': profilePicUrlfromUserID(userid),
         'posts':sorted_list,
         'imageLink' : config_json['S3-image']

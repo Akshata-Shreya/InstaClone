@@ -46,8 +46,9 @@
                 <ul class="people__list">
                     {% for person in people %}
                     {% if person.userID != user.userID %}
+                    <a href="/profile/{{user.userID}}/{{person.userID}}">
                     <li class="people__person">
-                        <a href="/profile/{{user.userID}}/{{person.userID}}">
+                        
                         <div class="people__column">
                             <div class="people__avatar-container">
                                 
@@ -64,17 +65,18 @@
                                 <span class="people__full-name">{{person.name}}</span>
                             </div>
                         </div>
-                        {% if person.userID not in user.followers %}
+                        {% if person.userID not in user.following %}
                         <div class="people__column">
                             <a href="/follow/{{user.userID}}/{{person.userID}}">Follow</a>
                         </div>
                         {% else %}
                         <div class="people__column">
-                            Following</a>
+                            Following
                         </div>
                         {% endif %}
-                    </a>
+                    
                     </li>
+                </a>
                     {% endif %}
                     {% endfor %}
                     <li class="people__person">
