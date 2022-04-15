@@ -4,6 +4,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponse
 from utils import user_handle, post_handle
 import requests
+from datetime import datetime
 import json
 
 # file = open('config.json')
@@ -42,6 +43,7 @@ def feed(request,userid):
         'userid':userid,
         'img_url': profilePicUrlfromUserID(userid)
     }
+    # sorted_list = sorted(patientRecords,key=itemgetter('uploadedOn'), reverse=True )
     return render(request,'feed.html',parameters)
 
 def follow(request, userid, profileid):
@@ -129,12 +131,13 @@ def newPost(request,userid):
             'postID':postid,
             'userID':userid,
             'location':location,
-            'description':description
+            'description':description,
+            'timestamp':datetime.now()
         }        
 
         post_handle.insert_one(post_object)
 
-        return redirect(profile,userid=userid)
+        return redirect(profile,userid=userid,profileid=userid)
 
     if request.method == 'GET': 
 
