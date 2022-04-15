@@ -10,5 +10,6 @@ urlpatterns = [
     path('follow/<slug:userid>/<slug:profileid>', views.follow, name='follow'),
     path('explore/<slug:userid>', views.explore, name='explore'),
     path('newPost/<slug:userid>', views.newPost, name='newPost'),
-    path('viewImage/<slug:postid>',views.viewImage,name='viewImage')
+    path('viewImage/<slug:postid>',views.viewImage,name='viewImage'),
+    path('likePost/<slug:postid>/<slug:userid>',views.views.likePost,name="likePost")
 ]

@@ -134,7 +134,8 @@ def newPost(request,userid):
             'userID':userid,
             'location':location,
             'description':description,
-            'timestamp':datetime.now()
+            'timestamp':datetime.now(),
+            'likedby':[]
         }        
 
         post_handle.insert_one(post_object)
@@ -175,6 +176,31 @@ def viewImage(request,postid):
         'base_url':config_json['S3-image']
     }
     return render (request,'image-detail.html',parameters)
+
+def likePost(request,postid,userid):
+    post = post_handle.find_one({'_id':postid})
+    likedby = post['likedby']
+    if userid not in likedby:
+        user_handle.update_one(
+            {'_id':userid},
+            [
+                {'$set':{'following':{'$concatArrays':['$following',[profileid]]}}}
+            ]
+        ) 
+        post_handle.update_one(
+            {'_id':postid},
+            [
+                {'$set':{'likedby':{'$concatArrays':['$likedby',[userid]]}}}
+            ]
+        )
+    else:
+        post_handle.update_one(
+            {'_id':postid},
+            [
+                {'$pull':{'likedby':userid}}
+            ]
+        )
+    return render (request,)
 
 
 def profilePicUrlfromUserID(userid):
