@@ -6,5 +6,5 @@ urlpatterns = [
     path('login',views.login,name="login"),
     path('profile/<slug:userid>', views.profile, name='profile'),
     path('feed', views.feed, name='feed'),
-    path('newPost/<int:userid>', views.newPost, name='newPost'),
+    path('newPost/<slug:userid>', views.newPost, name='newPost'),
 ]
