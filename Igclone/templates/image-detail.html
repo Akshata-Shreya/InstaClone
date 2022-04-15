@@ -24,7 +24,7 @@
                 <input type="text" placeholder="Search">
             </div>
             <div class="navigation__icons">
-                <a href="explore.html" class="navigation__link">
+                <a href="/explore/{{userid}}" class="navigation__link">
                     <i class="fa fa-compass"></i>
                 </a>
                 <a href="#" class="navigation__link">
@@ -45,21 +45,29 @@
             <section class="image">
                 <div class="image__file-container">
                     <img 
+                    
                         src="{{base_url}}{{postid}}"
                         class="image__file"
                     />
+                    <style type="text/css">
+                        *{
+                        padding:auto;
+                        margin:auto;
+                        text-align:center;
+                        }
+                        </style>
                 </div>
                 <div class="image__info">
                     <header class="image__header">
                         <div class="image__avatar-container">
                             <img 
-                                src="images/avatar.jpg"
-                                class="image__avatar"
+                                src="{{img_url}}"
+                                class="photo__avatar"
                             />
                         </div>
                         <div class="image__info">
-                            <span class="image__author">serranoarevalo</span>
-                            <span class="image__location">The Fat Policeman, Budapest</span>
+                            <span class="image__author">{{name}}</span>
+                            <span class="image__location">{{post.description}}</span>
                         </div>
                     </header>
                     <ul class="image__comments">
