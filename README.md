@@ -9,7 +9,7 @@ This project is an Instagram Clone for CCL Miniproject
 - show the list of followers and following
 - options for remove like or unfollow
 
-
+- search feature
 - option to remove someone from followers
 - block someone
 - public/ private profile (can try to use RBAC [Role Based Access])
