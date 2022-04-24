@@ -260,12 +260,13 @@ def signup(request):
 
         files = request.FILES
         user_img = files.get('user_img')
-
+        print(type(user_img))
+        print(user_img)
         base_url = config_json['S3-upload']
         folder = config_json['folder']
         headers = {
                     'Accept': 'application/json',
-                    'Content-Type': 'image/png',
+                    'Content-Type': 'image/*',
                     "Accept":"*/*",
                 }
 
@@ -284,7 +285,8 @@ def signup(request):
             "followers": [],
             "following":[]
         }
-)
+        )
+        return render(request, 'login.html')
 
     return render(request, 'signup.html')
 

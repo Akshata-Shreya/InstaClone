@@ -28,74 +28,87 @@
                         class="login__logo"
                     />
                     <!-- x   -->
-                    <form action="/login" method="post" >
+
+
+                    <form action="/signup" method="POST" class="edit-profile__form" enctype="multipart/form-data">
                         {% csrf_token %}
-                        <div class="login__input-container">
+                        <br>
+                        <br>
+                        <br>
+
+                        <div class="edit-profile__form-row">
+                            <label for="name" class="edit-profile__label">
+                                Name
+                            </label>
                             <input 
                                 type="text"
                                 name="name"
-                                placeholder="Full Name"
-                                required
-                                class="login__input"
+                                class="edit-profile__input"
                             />
                         </div>
-                        <div class="login__input-container">
+
+                        <div class="edit-profile__form-row">
+                            <label for="username" class="edit-profile__label">
+                                Username
+                            </label>
                             <input 
                                 type="text"
                                 name="username"
-                                placeholder="Username"
-                                required
-                                class="login__input"
+                                class="edit-profile__input"
                             />
                         </div>
-                    </br>
-                        <div class="login__input-container">
+                        
+                        <div class="edit-profile__form-row">
+                            <label for="bio" class="edit-profile__label">
+                                Bio
+                            </label>
                             <input 
                                 type="text"
                                 name="bio"
-                                placeholder="Bio"
-                                required
-                                class="login__input"
+                                class="edit-profile__input"
                             />
                         </div>
-                </br>                   
-                        <div class="login__input-container">
+
+                        <div class="edit-profile__form-row">
+                            <label for="password" class="edit-profile__label">
+                                Password
+                            </label>
                             <input 
                                 type="password"
                                 name="password"
-                                placeholder="Password"
-                                required
-                                class="login__input" 
+                                class="edit-profile__input"
                             />
+                        </div>
+
+                        <div class="edit-profile__form-row">
                             
+                                <label for="file" ><b>Upload Image</b></label>
+                           <input type="file"  accept="image/*" name="user_img" id="file"  onchange="loadFile(event)" >
+                                
                         </div>
-                    </br>                   
-
-                        <div class="login__input-container">
-                            <input type="file"  accept="image/*" name="user_img" id="file"  onchange="loadFile(event)" >
-                </br>
-
-                            <div>
-                                <img id="output" width="300" />
-                                <style type="text/css">
-                                    *{
-                                    padding:auto;
-                                    margin:auto;
-                                    text-align:center;
-                                    }
-                                    </style>
+                        <div>
+                            <img id="output" width="500" />
+                            <style type="text/css">
+                                *{
+                                padding:auto;
+                                margin:auto;
+                                text-align:center;
+                                }
+                                </style>
                         </div>
-                    </div>
-                </br>
-
-                        <div class="login__input-container">
-                            <input
-                                type="submit"
-                                value="Sign up"
-                                class="login__input login__input--btn"
-                            />
+                         <br>
+                         <br>
+                        
+                    
+                        <div class="edit-profile__form-row">
+                            <label class="edit-profile__label"></label>
+                            <input type="submit" value="Submit">
                         </div>
+                        
+                        
                     </form>
+
+
                     
                 </div>
                 <div class="login__section login__sign-up">
@@ -108,6 +121,7 @@
                 </div>
                 
             </section>
+            
         </main>
         <footer class="footer">
             <nav class="footer__nav">
@@ -127,10 +141,12 @@
             <span class="footer__copyright">© 2017 instagram</span>
         </footer>
         <script
-  src="https://code.jquery.com/jquery-3.2.1.min.js"
-  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
-  crossorigin="anonymous"></script>
+            src="https://code.jquery.com/jquery-3.2.1.min.js"
+            integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+            crossorigin="anonymous"></script>
+        
         <script src="{% static 'js/app.js' %}"></script>
+
         <script>
             var loadFile = function(event) {
                 var image = document.getElementById('output');
