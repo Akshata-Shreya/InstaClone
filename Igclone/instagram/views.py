@@ -252,12 +252,39 @@ def signup(request):
         bio = request.POST['bio']
         name = request.POST['name']
 
+        userid = str(uuid.uuid4())
+
         file = open('config.json')
         config_json = json.load(file)
         file.close()
 
         files = request.FILES
         user_img = files.get('user_img')
+
+        base_url = config_json['S3-upload']
+        folder = config_json['folder']
+        headers = {
+                    'Accept': 'application/json',
+                    'Content-Type': 'image/png',
+                    "Accept":"*/*",
+                }
+
+        url = base_url+folder+'usr-'+userid
+
+        response = requests.put(url=url, headers=headers, data=user_img)
+
+        user_handle.insert_one(
+        {
+            "_id":str(userid),
+            "username":username,
+            "password":password,
+            "bio":bio,
+            "name":name,
+            "userID":str(userid),
+            "followers": [],
+            "following":[]
+        }
+)
 
     return render(request, 'signup.html')
 
