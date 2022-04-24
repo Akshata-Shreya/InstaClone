@@ -130,22 +130,7 @@ def explore(request, userid):
     }
     return render(request,'explore.html',context)
 
-def login(request):
-    if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
 
-        user = user_handle.find_one(
-            {
-                'username':username,
-                'password':password
-            }
-             )
-
-        if user is not None:
-            return redirect(profile,userid=user['_id'],profileid=user['_id'])
-        
-    return render(request, 'login.html')
 
 
 def newPost(request,userid):
@@ -209,8 +194,6 @@ def newPost(request,userid):
         
         return render(request,'newPost.html',parameters)
 
-
-
 def likePost(request,postid,userid,returnPage):
     post = post_handle.find_one({'_id':postid})
     likedby = post['likedby']
@@ -243,4 +226,42 @@ def profilePicUrlfromUserID(userid):
     url = base_url+'usr-'+str(userid)
 
     return url
+
+def login(request):
+    if request.method == 'POST':
+        username = request.POST['username']
+        password = request.POST['password']
+
+        user = user_handle.find_one(
+            {
+                'username':username,
+                'password':password
+            }
+             )
+
+        if user is not None:
+            return redirect(profile,userid=user['_id'],profileid=user['_id'])
+        
+    return render(request, 'login.html')
+
+def signup(request):
+    if request.method == 'POST':
+
+        username = request.POST['username']
+        password = request.POST['password']
+        bio = request.POST['bio']
+        name = request.POST['name']
+
+        file = open('config.json')
+        config_json = json.load(file)
+        file.close()
+
+        files = request.FILES
+        user_img = files.get('user_img')
+
+    return render(request, 'signup.html')
+
+
+    
+
 
