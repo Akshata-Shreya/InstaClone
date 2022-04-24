@@ -3,7 +3,7 @@
 <html lang="en">
     <head>
         <meta charset="UTF-8">
-        <title>Login | Instaclone</title>
+        <title>Sign Up | Instaclone</title>
         <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
         <link rel="shortcut icon" href="{% static 'images/favicon.ico' %}" type="image/x-icon">
         <link href="{% static 'css/style.css' %}" rel="stylesheet">
@@ -33,12 +33,32 @@
                         <div class="login__input-container">
                             <input 
                                 type="text"
+                                name="name"
+                                placeholder="Full Name"
+                                required
+                                class="login__input"
+                            />
+                        </div>
+                        <div class="login__input-container">
+                            <input 
+                                type="text"
                                 name="username"
                                 placeholder="Username"
                                 required
                                 class="login__input"
                             />
                         </div>
+                    </br>
+                        <div class="login__input-container">
+                            <input 
+                                type="text"
+                                name="bio"
+                                placeholder="Bio"
+                                required
+                                class="login__input"
+                            />
+                        </div>
+                </br>                   
                         <div class="login__input-container">
                             <input 
                                 type="password"
@@ -47,24 +67,42 @@
                                 required
                                 class="login__input" 
                             />
-                            <a href="#" class="login__form-link">Forgot?</a>
+                            
                         </div>
+                    </br>                   
+
+                        <div class="login__input-container">
+                            <input type="file"  accept="image/*" name="user_img" id="file"  onchange="loadFile(event)" >
+                </br>
+
+                            <div>
+                                <img id="output" width="300" />
+                                <style type="text/css">
+                                    *{
+                                    padding:auto;
+                                    margin:auto;
+                                    text-align:center;
+                                    }
+                                    </style>
+                        </div>
+                    </div>
+                </br>
+
                         <div class="login__input-container">
                             <input
                                 type="submit"
-                                value="Log in"
+                                value="Sign in"
                                 class="login__input login__input--btn"
                             />
                         </div>
                     </form>
                     
-                    
                 </div>
                 <div class="login__section login__sign-up">
                     <span class="login__text">
-                        Don't have an account? 
-                        <a href="/signup" class="login__link">
-                            Sign up
+                        Already have an accout? 
+                        <a href="/" class="login__link">
+                            Sign in
                         </a>
                     </span>
                 </div>
@@ -93,5 +131,11 @@
   integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
   crossorigin="anonymous"></script>
         <script src="{% static 'js/app.js' %}"></script>
+        <script>
+            var loadFile = function(event) {
+                var image = document.getElementById('output');
+                image.src = URL.createObjectURL(event.target.files[0]);
+            };
+        </script>
     </body>
 </html>
