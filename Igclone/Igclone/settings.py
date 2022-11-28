@@ -12,6 +12,11 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 
 from pathlib import Path
 import os
+import json
+file = open('AWSconfig.json')
+AWSConfig = json.load(file)
+file.close()
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -106,15 +111,16 @@ AUTH_PASSWORD_VALIDATORS = [
 
 #S3 configuration
 
-AWS_ACCESS_KEY_ID = 'AKIAWCPJQXB65N435KVV'
-AWS_SECRET_ACCESS_KEY = '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'
-AWS_STORAGE_BUCKET_NAME = 'ccl-practical-1019153'
-AWS_S3_REGION_NAME = 'ap-south-1' 
-AWS_S3_VERIFY = True
-AWS_S3_FILE_OVERWRITE = False
-AWS_S3_SIGNATURE_VERSION = 's3v4'
-AWS_DEFAULT_ACL = None
-DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+AWS_ACCESS_KEY_ID = AWSConfig['AWS_STORAGE_BUCKET_NAME']
+AWS_SECRET_ACCESS_KEY = AWSConfig['AWS_SECRET_ACCESS_KEY']
+AWS_STORAGE_BUCKET_NAME = AWSConfig['AWS_STORAGE_BUCKET_NAME']
+AWS_S3_REGION_NAME = AWSConfig['AWS_S3_REGION_NAME']
+AWS_S3_VERIFY = bool(AWSConfig['AWS_S3_VERIFY'])
+AWS_S3_FILE_OVERWRITE = bool(AWSConfig['AWS_S3_FILE_OVERWRITE'])
+AWS_S3_SIGNATURE_VERSION = AWSConfig['AWS_S3_SIGNATURE_VERSION']
+if AWSConfig['AWS_DEFAULT_ACL']==0:
+    AWS_DEFAULT_ACL = None
+DEFAULT_FILE_STORAGE = AWSConfig['DEFAULT_FILE_STORAGE']
 # STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
 # Internationalization
