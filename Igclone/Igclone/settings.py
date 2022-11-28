@@ -13,8 +13,10 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 from pathlib import Path
 import os
 import json
-file = open('AWSconfig.json')
-AWSConfig = json.load(file)
+AWSfile = open('AWSconfig.json')
+file = open('config.json')
+AWSConfig = json.load(AWSfile)
+config_file = json.load(file)
 file.close()
 
 
@@ -27,7 +29,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-d+tp27v6ty=nx72kuqv@+85!fn+pa^avylqo%yvz1#2rs_n2m$'
+SECRET_KEY = config_file["DjangoSecretKey"]
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
